@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using BlazorPrimerParcial19DeFebero2020.Models;
 
 namespace BlazorPrimerParcial19DeFebero2020.Data
 {
@@ -12,5 +13,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Data
         {
             base.OnConfiguring(optionsBuilder.UseSqlite("Data Source = Database/PrimerParcial19DeFebrero2020Db"));
         }
-    }
+
+       public DbSet<Inscripcion> Inscripcion {get; set;}
+}
 }

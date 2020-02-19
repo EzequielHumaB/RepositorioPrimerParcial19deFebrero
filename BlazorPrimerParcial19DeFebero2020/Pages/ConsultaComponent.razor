@@ -1,0 +1,46 @@
+﻿@page "/Consulta"
+
+<h3>Consulta</h3>
+
+@if (Inscripcion == null)
+{
+    <p>No hay datos</p>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Semestres</th>
+                <th>Limite de creditos</th>
+                <th>Tomados en el semestre</th>
+                <th>Disponibles en el semestre</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Inscripcion)
+            {
+            <tr>
+                <td>@item.InscripcionId</td>
+                <td>@item.Semestre</td>
+                <td>@item.Limite</td>
+                <td>@item.Tomados</td>
+                <td>@item.Disponibles</td>
+            </tr>
+        }
+            </tbody>
+        </table>
+    }
+
+@code {
+    List<Inscripcion> Inscripcion = new List<Inscripcion>();
+    InscripcionControllers InscripcionControllers = new InscripcionControllers();
+
+
+    protected override void OnInitialized()
+    {
+        Inscripcion = InscripcionControllers.GetList(p => true);
+    }
+
+}
