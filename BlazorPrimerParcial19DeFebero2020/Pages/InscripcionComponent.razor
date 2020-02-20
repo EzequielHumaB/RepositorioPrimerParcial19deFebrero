@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label for="Limite">Limite de creditos</label>
-                    <InputNumber @bind-Value="inscripcion.Limite" class="form-control" disabled></InputNumber>
+                    <InputNumber @bind-Value="inscripcion.Limite" class="form-control"></InputNumber>
                 </div>
 
                 <div class="form-group">
@@ -59,9 +59,16 @@
 
     private void Guardar()
     {
-        InscripcionControllers.Insertar(inscripcion);
-        mensaje = "Guardado correctamente";
-        this.inscripcion = new Inscripcion();
+        if(inscripcion.Tomados > inscripcion.Limite)
+        {
+            mensaje = "El limite no puede ser mayor a tomados";
+        } else
+        {
+             InscripcionControllers.Insertar(inscripcion);
+             mensaje = "Guardado correctamente";
+             this.inscripcion = new Inscripcion();
+        }
+       
     }
 
     private void Nuevo()

@@ -16,7 +16,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Models
     
         public decimal Limite { get; set; }
         [Required(ErrorMessage = "El campo debe Tomados en el semestre debe ser un numero")]
-        [Range(1,27,ErrorMessage ="El campo Tomados en el semestre debe estar entre 1 y 27")]
+        [Range(1,100000,ErrorMessage ="El campo Tomados en el semestre debe estar entre 1 y 27")]
         public decimal Tomados { get; set; }
         public decimal Disponibles { get; set; }
 
@@ -24,7 +24,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Models
         {
             InscripcionId = 0;
             Semestre = string.Empty;
-            Limite = 27;
+            Limite = 0;
             Tomados = 0;
             Disponibles = 0;
         }
