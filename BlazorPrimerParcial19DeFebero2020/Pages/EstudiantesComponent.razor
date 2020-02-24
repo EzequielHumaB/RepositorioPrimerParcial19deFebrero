@@ -1,0 +1,116 @@
+﻿@page  "/Estudiantes"
+
+<h3>Estudiante</h3>
+<div class="container">
+    <h5>@mensaje</h5>
+    <div class="row">
+        <div class="col-md-9">
+            <EditForm Model="estudiantes" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div class="form-group">
+                    <label for="EstudianteId">EstudianteId</label>
+                    <InputNumber @bind-Value="estudiantes.EstudianteId" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>estudiantes.EstudianteId)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="NombreEstudiante">Nombre</label>
+                    <InputText @bind-Value="estudiantes.NombreEstudiante" class="form-control"></InputText>
+                    <ValidationMessage For="(()=>estudiantes.NombreEstudiante)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="Matricula">Matricula</label>
+                    <InputNumber @bind-Value="estudiantes.Matricula" class="form-control"></InputNumber>
+                </div>
+
+                <div class="form-group">
+                    <label for="Balance">Balance</label>
+                    <InputNumber @bind-Value="estudiantes.Balance" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>estudiantes.Balance)"></ValidationMessage>
+                </div>
+
+              
+
+                <button type="button" class="btn btn-info" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+
+            </EditForm>
+        </div>
+
+        <div class="col">
+            <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+        </div>
+
+    </div>
+</div>
+
+
+@code {
+    Estudiantes estudiantes = new Estudiantes();
+    EstudiantesControllers EstudiantesControllers = new EstudiantesControllers();
+    private string mensaje;
+
+    [Parameter]
+    public string CurrentId { get; set; }
+
+    Inscripcion ins = new Inscripcion();
+
+   
+
+ 
+
+    private void Guardar()
+    {
+        if (EstudiantesControllers.Insertar(estudiantes))
+        {
+            mensaje = "Guardado";
+            this.estudiantes = new Estudiantes();
+        }
+        else
+        {
+            mensaje = "No se pudo guardar";
+        }
+
+    }
+
+
+
+    private void Nuevo()
+    {
+        this.estudiantes = new Estudiantes();
+    }
+
+    private void Eliminar()
+    {
+        bool paso = EstudiantesControllers.Eliminar(estudiantes.EstudianteId);
+        if (paso == false)
+        {
+            mensaje = "No existe la inscripcion";
+        }
+        else
+        {
+            mensaje = "Eliminado correctamente";
+            this.estudiantes = new Estudiantes();
+        }
+    }
+
+    private void Buscar()
+    {
+        Estudiantes busca = EstudiantesControllers.Buscar(estudiantes.EstudianteId);
+        if (busca != null)
+        {
+            this.estudiantes = busca;
+            mensaje = "Encontrado correctamente";
+        }
+        else
+        {
+            mensaje = "No se pudo encontrar";
+            this.estudiantes = new Estudiantes();
+        }
+    }
+
+   
+
+}

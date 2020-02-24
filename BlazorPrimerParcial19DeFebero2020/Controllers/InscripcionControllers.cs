@@ -10,28 +10,31 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
     public class InscripcionControllers
     {
 
-
+       
         public bool Insertar(Inscripcion inscripcion)
         {
-            bool paso = false;
+            bool paso = true;
             Contexto contexto = new Contexto();
-
             try
             {
-                if(inscripcion.InscripcionId==0)
-                {
+                if (inscripcion.InscripcionId == 0)              
                     Guardar(inscripcion);
-                } else
-                {
+
+                else if (Buscar(inscripcion.InscripcionId) != null)            
                     Modificar(inscripcion);
-                }
+
+                else
+                    paso = false;                         
             }catch
             {
                 throw;
             }
             return paso;
         }
-        public bool Guardar(Inscripcion inscripcion)
+
+
+
+         private bool Guardar(Inscripcion inscripcion)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -50,7 +53,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
         }
 
 
-        public bool Modificar(Inscripcion inscripcion)
+        private bool Modificar(Inscripcion inscripcion)
         {
             bool paso = false;
             Contexto contexto = new Contexto();

@@ -1,4 +1,4 @@
-﻿@page "/Inscripcion"
+﻿@page "/Inscripcion/{CurrentId}"
 
 <h3>Inscripcion</h3>
 
@@ -56,20 +56,37 @@
     InscripcionControllers InscripcionControllers = new InscripcionControllers();
     private string mensaje;
 
+    [Parameter]
+    public string CurrentId { get; set; }
+
+    Inscripcion ins = new Inscripcion();
+
+    protected override void OnInitialized()
+    {
+        ins = inscripcion;
+        ins = InscripcionControllers.Buscar(Convert.ToInt32(CurrentId));
+    }
+
+
+    private void Igualar()
+    {
+        inscripcion = ins;
+    }
 
     private void Guardar()
     {
-        if(inscripcion.Tomados > inscripcion.Limite)
+        if(InscripcionControllers.Insertar(inscripcion))
         {
-            mensaje = "El limite no puede ser mayor a tomados";
+            mensaje = "Guardado";
+            this.inscripcion = new Inscripcion();
         } else
         {
-             InscripcionControllers.Insertar(inscripcion);
-             mensaje = "Guardado correctamente";
-             this.inscripcion = new Inscripcion();
+            mensaje = "No se pudo guardar";
         }
-       
+
     }
+
+
 
     private void Nuevo()
     {

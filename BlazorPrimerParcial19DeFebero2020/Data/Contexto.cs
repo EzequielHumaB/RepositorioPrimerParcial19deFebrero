@@ -15,5 +15,9 @@ namespace BlazorPrimerParcial19DeFebero2020.Data
         }
 
        public DbSet<Inscripcion> Inscripcion {get; set;}
-}
+        public DbSet<Estudiantes> Estudiantes { get; set; }
+
+        public DbSet<Asignaturas> Asignaturas { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
+    }
 }
