@@ -77,8 +77,13 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
             try
             {
                 Asignaturas asignaturas = contexto.Asignaturas.Find(id);
-                contexto.Entry(asignaturas).State = EntityState.Deleted;
-                paso = contexto.SaveChanges() > 0;
+
+                if(asignaturas!=null)
+                {
+                    contexto.Entry(asignaturas).State = EntityState.Deleted;
+                    paso = contexto.SaveChanges() > 0;
+                }
+               
             }
             catch
             {

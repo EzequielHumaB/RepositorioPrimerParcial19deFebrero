@@ -1,4 +1,4 @@
-﻿@page "/Inscripcion/{CurrentId}"
+﻿@page "/Inscripcion/{CurrentId:int}"
 
 <h3>Inscripcion</h3>
 
@@ -52,25 +52,22 @@
 
 
 @code {
-    Inscripcion inscripcion = new Inscripcion();
+    private Inscripcion inscripcion { get; set; } = new Inscripcion();
     InscripcionControllers InscripcionControllers = new InscripcionControllers();
+
     private string mensaje;
 
-    [Parameter]
-    public string CurrentId { get; set; }
 
-    Inscripcion ins = new Inscripcion();
+
+    [Parameter]
+    public int CurrentId { get; set; }
 
     protected override void OnInitialized()
     {
-        ins = inscripcion;
-        ins = InscripcionControllers.Buscar(Convert.ToInt32(CurrentId));
-    }
-
-
-    private void Igualar()
-    {
-        inscripcion = ins;
+        if(CurrentId!=0)
+        {
+            inscripcion = InscripcionControllers.Buscar(CurrentId);
+        }
     }
 
     private void Guardar()
@@ -85,8 +82,6 @@
         }
 
     }
-
-
 
     private void Nuevo()
     {

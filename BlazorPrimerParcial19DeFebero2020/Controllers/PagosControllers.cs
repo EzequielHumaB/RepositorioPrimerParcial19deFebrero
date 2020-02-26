@@ -77,8 +77,12 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
             try
             {
                 Pagos pagos = contexto.Pagos.Find(id);
-                contexto.Entry(pagos).State = EntityState.Deleted;
-                paso = contexto.SaveChanges() > 0;
+                if(pagos!=null)
+                {
+                    contexto.Entry(pagos).State = EntityState.Deleted;
+                    paso = contexto.SaveChanges() > 0;
+                }
+                
             }
             catch
             {

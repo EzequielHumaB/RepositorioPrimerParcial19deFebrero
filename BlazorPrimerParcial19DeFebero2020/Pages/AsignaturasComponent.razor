@@ -1,0 +1,128 @@
+﻿@page "/Asignaturas/{CurrentId:int}"
+
+<h3>Asignaturas</h3>
+
+<div class="container">
+    <div class="row">
+        <h5>@Mensaje</h5>
+        <div class="col-md-9">
+            <EditForm Model="asignaturas" OnValidSubmit="Guardar">
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                <div class="form-group">
+                    <label for="AsignaturaId">AsignaturaId</label>
+                    <InputNumber @bind-Value="asignaturas.AsignaturaId" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>asignaturas.AsignaturaId)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="Codigo">Codigo</label>
+                    <InputNumber @bind-Value="asignaturas.Codigo" class="form-control" placeholder="Codigo"></InputNumber>
+                    <ValidationMessage For="(()=>asignaturas.Codigo)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="Descripcion">Descripcion</label>
+                    <InputText @bind-Value="asignaturas.Descripcion" class="form-control" placeholder="Descripcion"></InputText>
+                    <ValidationMessage For="(()=>asignaturas.Descripcion)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="PreRequisitos">Perrequisitos</label>
+                    <InputText @bind-Value="asignaturas.PreRequisitos" class="form-control"></InputText>
+                    <ValidationMessage For="(()=>asignaturas.PreRequisitos)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="Creditos">Creditos</label>
+                    <InputNumber @bind-Value="asignaturas.Creditos" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>asignaturas.Creditos)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="EstudianteId">EstudianteId</label>
+                    <InputNumber @bind-Value="asignaturas.EstudianteId" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>asignaturas.EstudianteId)"></ValidationMessage>
+                </div>
+
+                <button type="button">Nuevo</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+            </EditForm>
+        </div>
+
+        <div class="col">
+            <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+@code {
+    Asignaturas asignaturas = new Asignaturas();
+    AsignaturasControllers AsignaturasControllers = new AsignaturasControllers();
+
+    private string Mensaje { get; set; }
+
+
+    [Parameter]
+    public int CurrentId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if(CurrentId!=0)
+        {
+            asignaturas = AsignaturasControllers.Buscar(CurrentId);
+        }
+    }
+
+    private void Guardar()
+    {
+        if(AsignaturasControllers.Insertar(asignaturas))
+        {
+            Mensaje = "Guardado correctamente";
+            this.asignaturas = new Asignaturas();
+        } else
+        {
+            Mensaje = "No se pudo guardar";
+        }
+    }
+
+
+    private void Nuevo()
+    {
+        this.asignaturas = new Asignaturas();
+    }
+
+    private void Eliminar()
+    {
+        if(AsignaturasControllers.Eliminar(asignaturas.AsignaturaId))
+        {
+            Mensaje = "Eliminado correctamente";
+            this.asignaturas = new Asignaturas();
+        } else
+        {
+            Mensaje = "No se pudo eliminar";
+        }
+    }
+
+    private void Buscar()
+    {
+        Asignaturas busca = AsignaturasControllers.Buscar(asignaturas.AsignaturaId);
+        if(busca!=null)
+        {
+            this.asignaturas = busca;
+            Mensaje = "Encontrado correctamente";
+        } else
+        {
+            Mensaje = "Asignatura no encontrada";
+        }
+    }
+
+
+
+}

@@ -1,0 +1,114 @@
+﻿@page "/Pagos"
+
+<h3>Pagos</h3>
+
+<div class="container">
+    <h5>@Mensaje</h5>
+    <div class="row">
+        <div class="col-md-9">
+            <EditForm>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                <div class="form-group">
+                    <label for="PagoId">PagoId</label>
+                    <InputNumber @bind-Value="pagos.PagoId" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>pagos.PagoId)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="InscripcionId">InscripcionId</label>
+                    <InputNumber @bind-Value="pagos.InscripcionId" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>pagos.InscripcionId)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="FechaPago">Fecha de pago</label>
+                    <InputDate @bind-Value="pagos.FechaPago" class="form-control"></InputDate>
+                    <ValidationMessage For="(()=>pagos.FechaPago)"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <label for="MontoPago">Monto de pago</label>
+                    <InputNumber @bind-Value="pagos.MontoPago" class="form-control"></InputNumber>
+                    <ValidationMessage For="(()=>pagos.MontoPago)"></ValidationMessage>
+                </div>
+
+                <button type="button" class="btn btn-info" @onclick="Nuevo">Nuevo</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="button" class="btn btn-danger" @onclick="Eliminar">Eliminar</button>
+
+            </EditForm>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-success" @onclick="Buscar">Buscar</button>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+
+    PagosControllers PagosControllers = new PagosControllers();
+
+    private string Mensaje;
+
+    //[Parameter]
+    //public int CurrentId { get; set; }
+
+    //protected override void OnInitialized()
+    //{
+    //    if(CurrentId!=0)
+    //    {
+    //        pagos = PagosControllers.Buscar(CurrentId);
+    //    }
+    //}
+
+    Pagos pagos { get; set; } = new Pagos();
+
+    private void Guardar()
+    {
+        if(PagosControllers.Insertar(pagos))
+        {
+            Mensaje = "Guardado correctamente";
+            this.pagos = new Pagos();
+        } else
+        {
+            Mensaje = "No se pudo guardar";
+        }
+    }
+
+    private void Nuevo()
+    {
+        this.pagos = new Pagos();
+    }
+
+    private void Eliminar()
+    {
+        if(PagosControllers.Eliminar(pagos.PagoId))
+        {
+            Mensaje = "Se ha eliminado correctamente";
+            this.pagos = new Pagos();
+        } else
+        {
+            Mensaje = "No se ha podido eliminar";
+        }
+    }
+
+
+    private void Buscar()
+    {
+        Pagos busca = PagosControllers.Buscar(pagos.PagoId);
+        if (busca != null)
+        {
+            this.pagos = busca;
+            Mensaje = "Pago encontrado";
+        }
+        else
+        {
+            Mensaje = "No se ha podido encontrar";
+        }
+    }
+
+
+}

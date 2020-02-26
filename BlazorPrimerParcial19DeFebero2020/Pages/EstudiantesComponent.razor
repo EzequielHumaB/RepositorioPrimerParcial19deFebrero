@@ -1,4 +1,4 @@
-﻿@page  "/Estudiantes"
+﻿@page  "/Estudiantes/{CurrentId:int}"
 
 <h3>Estudiante</h3>
 <div class="container">
@@ -53,13 +53,16 @@
     private string mensaje;
 
     [Parameter]
-    public string CurrentId { get; set; }
+    public int CurrentId { get; set; }
 
-    Inscripcion ins = new Inscripcion();
+    protected override void OnInitialized()
+    {
+        if(CurrentId!=0)
+        {
+            estudiantes = EstudiantesControllers.Buscar(CurrentId);
+        }
+    }
 
-   
-
- 
 
     private void Guardar()
     {
@@ -111,6 +114,6 @@
         }
     }
 
-   
+
 
 }

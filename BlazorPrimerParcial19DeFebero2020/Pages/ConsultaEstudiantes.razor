@@ -1,0 +1,45 @@
+﻿@page "/ConsultaEstudiantes"
+
+<h3>Consulta de Estudiantes</h3>
+
+@if(Estudiantes == null)
+{
+    <p>No hay datos</p>
+} else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>EstudianteId</th>
+                <th>Nombre de estudiante</th>
+                <th>Matricula</th>
+                <th>Balance</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Estudiantes)
+            {
+                <tr>
+                    <td>@item.EstudianteId</td>
+                    <td>@item.NombreEstudiante</td>
+                    <td>@item.Matricula</td>
+                    <td>@item.Balance</td>
+                    <td><a class="btn btn-outline-success" href="Estudiantes/@item.EstudianteId">Ver</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    List<Estudiantes> Estudiantes = new List<Estudiantes>();
+    EstudiantesControllers EstudiantesControllers = new EstudiantesControllers();
+
+    protected override void OnInitialized()
+    {
+        Estudiantes = EstudiantesControllers.GetList(p => true);
+    }
+}

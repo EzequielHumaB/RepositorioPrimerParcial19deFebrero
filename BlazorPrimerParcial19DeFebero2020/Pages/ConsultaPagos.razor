@@ -1,0 +1,45 @@
+﻿@page "/ConsultaPagos"
+
+<h3>Consulta de Pagos</h3>
+
+@if(Pagos == null)
+{
+    <p>No hay datos</p>
+} else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>PagoId</th>
+                <th>InscripcionId</th>
+                <th>Fecha de pago</th>
+                <th>Monto de pago</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Pagos)
+            {
+                <tr>
+                    <td>@item.PagoId</td>
+                    <td>@item.InscripcionId</td>
+                    <td>@item.FechaPago</td>
+                    <td>@item.MontoPago</td>
+                @*    <td><a class="btn btn-outline-success" href="Pagos/@item.PagoId"></a></td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+
+@code {
+    List<Pagos> Pagos = new List<Pagos>();
+    PagosControllers PagosControllers = new PagosControllers();
+
+    protected override void OnInitialized()
+    {
+        Pagos = PagosControllers.GetList(p => true);
+    }
+}
