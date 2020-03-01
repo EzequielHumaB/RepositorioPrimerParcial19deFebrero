@@ -87,6 +87,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
             try
             {
                 estudiantes = contexto.Estudiantes.Find(id);
+                estudiantes.Asignaturas.Count();             
             }catch
             {
                 throw;
@@ -101,12 +102,15 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
             try
             {
                 lista = contexto.Estudiantes.Where(expression).ToList();
+                
             }catch
             {
                 throw;
             }
             return lista;
         }
+
+       
 
     }
 }

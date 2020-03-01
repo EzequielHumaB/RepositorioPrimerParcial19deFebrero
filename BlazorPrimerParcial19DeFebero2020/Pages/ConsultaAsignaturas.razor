@@ -1,22 +1,23 @@
 ﻿@page "/ConsultaAsignaturas"
 
-<h3>Consulta de asignaturas</h3>
+<h3>ConsultaAsignaturas</h3>
 
-@if(Asignaturas == null)
+
+@if (Asignaturas == null)
 {
     <p>No hay datos</p>
-} else
+}
+else
 {
     <table class="table">
         <thead>
             <tr>
-                <th>AsignaturaId</th>
+                <th>Asignaturas</th>
                 <th>Codigo</th>
-                <th>Descripcion</th>
-                <th>Perrequesitos</th>
                 <th>Creditos</th>
+                <th>Descripcion</th>
                 <th>EstudianteId</th>
-                <th></th>
+                <td>PreRequisitos</td>
             </tr>
         </thead>
         <tbody>
@@ -25,11 +26,11 @@
                 <tr>
                     <td>@item.AsignaturaId</td>
                     <td>@item.Codigo</td>
-                    <td>@item.Descripcion</td>
-                    <td>@item.PreRequisitos</td>
                     <td>@item.Creditos</td>
-                    <td>@item.EstudianteId</td>
-                    <td><a class="btn btn-outline-success" href="Asignaturas/@item.AsignaturaId">Ver</a></td>
+                    <td>@item.Descripcion</td>
+                    <td>@item.EstudianteId.</td>
+                    <td>@item.PreRequisitos</td>
+                    <td><a class="btn btn-outline-success" href="Estudiantes/@item.EstudianteId">Ver</a></td>
                 </tr>
             }
         </tbody>
@@ -37,7 +38,9 @@
 }
 
 
+
 @code {
+
     List<Asignaturas> Asignaturas = new List<Asignaturas>();
     AsignaturasControllers AsignaturasControllers = new AsignaturasControllers();
 
@@ -45,4 +48,8 @@
     {
         Asignaturas = AsignaturasControllers.GetList(p => true);
     }
+
+
+
+
 }

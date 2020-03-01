@@ -10,22 +10,23 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
     public class InscripcionControllers
     {
 
-       
+
         public bool Insertar(Inscripcion inscripcion)
         {
             bool paso = true;
             Contexto contexto = new Contexto();
             try
             {
-                if (inscripcion.InscripcionId == 0)              
+                if (inscripcion.InscripcionId == 0)
                     Guardar(inscripcion);
 
-                else if (Buscar(inscripcion.InscripcionId) != null)            
+                else if (Buscar(inscripcion.InscripcionId) != null)
                     Modificar(inscripcion);
 
                 else
-                    paso = false;                         
-            }catch
+                    paso = false;
+            }
+            catch
             {
                 throw;
             }
@@ -34,7 +35,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
 
 
 
-         private bool Guardar(Inscripcion inscripcion)
+        private bool Guardar(Inscripcion inscripcion)
         {
             bool paso = false;
             Contexto contexto = new Contexto();
@@ -60,7 +61,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
             try
             {
                 contexto.Entry(inscripcion).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-               paso = contexto.SaveChanges() > 0;
+                paso = contexto.SaveChanges() > 0;
             }
             catch
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorPrimerParcial19DeFebero2020.Models
 {
@@ -20,12 +21,16 @@ namespace BlazorPrimerParcial19DeFebero2020.Models
         [Range(1,1000000000000000000,ErrorMessage ="El balance no puede ser menor que cero")]
         public decimal Balance { get; set; }
 
+        public List<Asignaturas> Asignaturas { get; set; }
+
         public Estudiantes()
         {
             EstudianteId = 0;
             NombreEstudiante = string.Empty;
             Matricula = 0;
             Balance = 0;
+            EstudianteId = 0;
+            Asignaturas = new List<Asignaturas>();
         }
     }
 }

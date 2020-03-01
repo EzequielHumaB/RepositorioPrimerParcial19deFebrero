@@ -11,13 +11,13 @@ namespace BlazorPrimerParcial19DeFebero2020.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlite("Data Source = Database/PrimerParcial19DeFebrero2020Db"));
+            base.OnConfiguring(optionsBuilder.UseSqlite("Data Source = Database/PrimerParcial19DeFebrero2020DbSegundaVersion4"));
         }
 
-       public DbSet<Inscripcion> Inscripcion {get; set;}
         public DbSet<Estudiantes> Estudiantes { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
+        public DbSet<Inscripcion> Inscripcion { get; set; }
 
         public DbSet<Asignaturas> Asignaturas { get; set; }
-        public DbSet<Pagos> Pagos { get; set; }
     }
 }

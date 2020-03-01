@@ -12,6 +12,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Models
         [Range(0,10000000000,ErrorMessage ="El Id no puede ser menor cero")]
         public int InscripcionId { get; set; }
         [Required(ErrorMessage ="El campo semestre no puede estar vacio")]
+        [Range(minimum:10,maximum:300,ErrorMessage ="El demasiado corto")]
         public string Semestre { get; set; }
     
         public decimal Limite { get; set; }

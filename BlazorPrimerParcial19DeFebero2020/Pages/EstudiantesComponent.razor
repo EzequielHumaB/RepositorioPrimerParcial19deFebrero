@@ -4,7 +4,7 @@
 <div class="container">
     <h5>@mensaje</h5>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-10">
             <EditForm Model="estudiantes" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <div class="form-group">
@@ -19,6 +19,79 @@
                     <ValidationMessage For="(()=>estudiantes.NombreEstudiante)"></ValidationMessage>
                 </div>
 
+
+                <div class="form-row form-group">
+                    <label>
+                        AsignaturaId
+                        <InputSelect @bind-Value="AsignaturaNombre">
+                            <option>Materias</option>
+                            <option value="1">Matematicas</option>
+                        </InputSelect>
+                    </label>
+                    <div class="col">
+                        <label for="Descripcion">Descripcion</label>
+                        <InputText @bind-Value="Descripcion" class="form-control" placeholder="Descripcion"></InputText>
+                    </div>
+
+                    <div class="col">
+                        <label for="Creditos">Creditos</label>
+                        <InputNumber @bind-Value="Creditos" placeholder="Creditos"></InputNumber>
+                    </div>
+             
+                </div>
+
+                <div class="form-row form-group">
+
+                    <div class="col">
+                        <label for="Prerrequisitos">Prerrequisitos</label>
+                        <InputText @bind-Value="Prerrequisitos"></InputText>
+                    </div>
+
+                    <div class="col">
+                        <label for="EstudianteId">EstudianteId</label>
+                        <InputNumber @bind-Value="EstudianteId" class="form-control"></InputNumber>
+                    </div>
+
+                    <div class="col">
+                        <label for="Codigo">Codigo</label>
+                        <InputText @bind-Value="Codigo" class="form-control"></InputText>
+                    </div>
+
+                </div>
+
+
+                <button type="button" class="btn btn-outline-success" @onclick="BuscarAsignaturas">Buscar Asignatura</button>
+
+
+                <button type="button" @onclick="CargarGrid" class="btn btn-outline-primary">Agregar asignatura</button>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Creditos</th>
+                            <th>PreRequisitos</th>
+                            <th>EstudianteId</th>
+                            <th>Codigo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in AsignaturasDetalle)
+                        {
+                            <tr>
+                                <td>@item.AsignaturaId.</td>
+                                <td>@item.Creditos</td>
+                                <td>@item.PreRequisitos</td>
+                                <td>@item.EstudianteId</td>
+                                <td>@item.Codigo</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+
+
                 <div class="form-group">
                     <label for="Matricula">Matricula</label>
                     <InputNumber @bind-Value="estudiantes.Matricula" class="form-control"></InputNumber>
@@ -30,7 +103,7 @@
                     <ValidationMessage For="(()=>estudiantes.Balance)"></ValidationMessage>
                 </div>
 
-              
+
 
                 <button type="button" class="btn btn-info" @onclick="Nuevo">Nuevo</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>
@@ -48,9 +121,20 @@
 
 
 @code {
+
     Estudiantes estudiantes = new Estudiantes();
+    List<Asignaturas> AsignaturasDetalle = new List<Asignaturas>();
     EstudiantesControllers EstudiantesControllers = new EstudiantesControllers();
+    AsignaturasControllers AsignaturasControllers = new AsignaturasControllers();
+    private string AsignaturaNombre { get; set; }
+    private string Descripcion { get; set; }
     private string mensaje;
+    private string Prerrequisitos { get; set; }
+    Asignaturas asignaturas = new Asignaturas();
+    private int Creditos { get; set; }
+    private int EstudianteId { get; set; }
+    private string Codigo { get; set; }
+
 
     [Parameter]
     public int CurrentId { get; set; }
@@ -66,6 +150,7 @@
 
     private void Guardar()
     {
+      
         if (EstudiantesControllers.Insertar(estudiantes))
         {
             mensaje = "Guardado";
@@ -114,6 +199,36 @@
         }
     }
 
+    private void CargarGrid()
+    {
+
+        this.AsignaturasDetalle.Add(
+            new Asignaturas(
+               asignaturas.AsignaturaId = Convert.ToInt32(AsignaturaNombre),
+               asignaturas.Codigo = Codigo,
+               asignaturas.Descripcion = Descripcion,
+               asignaturas.PreRequisitos = Prerrequisitos,
+               asignaturas.Creditos = Creditos,
+               asignaturas.EstudianteId = EstudianteId
+                ));
+
+    }
+
+    private void BuscarAsignaturas()
+    {
+        Asignaturas busca = AsignaturasControllers.BuscarAsignaturas(Convert.ToInt32(AsignaturaNombre));
+
+        if(busca!=null)
+        {
+            this.asignaturas = busca;
+        } else
+        {
+            mensaje = "Ha aparecido un error";
+        }
+
+
+
+    }
 
 
 }
