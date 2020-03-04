@@ -11,7 +11,7 @@ namespace BlazorPrimerParcial19DeFebero2020.Data
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlite("Data Source = Database/PrimerParcial19DeFebrero2020DbSegundaVersion4"));
+            base.OnConfiguring(optionsBuilder.UseSqlite("Data Source = Database/PrimerParcial19DeFebrero2020DbSegundaVersion5"));
         }
 
         public DbSet<Estudiantes> Estudiantes { get; set; }

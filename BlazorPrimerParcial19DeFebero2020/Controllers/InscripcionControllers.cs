@@ -42,6 +42,8 @@ namespace BlazorPrimerParcial19DeFebero2020.Controllers
 
             try
             {
+
+
                 contexto.Inscripcion.Add(inscripcion);
                 paso = contexto.SaveChanges() > 0;
             }

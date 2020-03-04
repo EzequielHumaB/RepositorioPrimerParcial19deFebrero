@@ -21,17 +21,27 @@
 
 
                 <div class="form-row form-group">
-                    <label>
-                        AsignaturaId
-                        <InputSelect @bind-Value="AsignaturaNombre">
-                            <option>Materias</option>
-                            <option value="1">Matematicas</option>
-                        </InputSelect>
-                    </label>
                     <div class="col">
-                        <label for="Descripcion">Descripcion</label>
-                        <InputText @bind-Value="Descripcion" class="form-control" placeholder="Descripcion"></InputText>
+                        <label for="AsignaturaId">AsignaturaId</label>
+                        <InputNumber @bind-Value="AsignaturaId"></InputNumber>
                     </div>
+                  
+                    <div>
+                        <label>
+                            AsignaturaId
+                            <InputSelect @bind-Value="AsignaturaNombre">
+                                <option>Materias</option>
+                                @foreach (var item in AsignaturasDetalle)
+                                  {
+                                    <option>@item.Descripcion</option>
+                                }
+                                <option value="Matematicas">Matematicas</option>
+                                <option value="Aplicada">Aplicada</option>
+                            </InputSelect>
+                        </label>
+                    </div>
+                   
+                   
 
                     <div class="col">
                         <label for="Creditos">Creditos</label>
@@ -62,8 +72,10 @@
 
                 <button type="button" class="btn btn-outline-success" @onclick="BuscarAsignaturas">Buscar Asignatura</button>
 
-
                 <button type="button" @onclick="CargarGrid" class="btn btn-outline-primary">Agregar asignatura</button>
+
+                <button type="button" @onclick="LimpiarCampos" class="btn btn-outline-dark">Limpiar campos</button>
+                <br />
 
                 <table class="table">
                     <thead>
@@ -132,6 +144,7 @@
     private string Prerrequisitos { get; set; }
     Asignaturas asignaturas = new Asignaturas();
     private int Creditos { get; set; }
+    public int AsignaturaId { get; set; }
     private int EstudianteId { get; set; }
     private string Codigo { get; set; }
 
@@ -150,7 +163,8 @@
 
     private void Guardar()
     {
-      
+        LlevarGrid();
+
         if (EstudiantesControllers.Insertar(estudiantes))
         {
             mensaje = "Guardado";
@@ -190,6 +204,8 @@
         if (busca != null)
         {
             this.estudiantes = busca;
+            this.AsignaturasDetalle = AsignaturasControllers.GetList(p => p.EstudianteId == estudiantes.EstudianteId);
+            LlevarGrid();
             mensaje = "Encontrado correctamente";
         }
         else
@@ -204,9 +220,9 @@
 
         this.AsignaturasDetalle.Add(
             new Asignaturas(
-               asignaturas.AsignaturaId = Convert.ToInt32(AsignaturaNombre),
+               asignaturas.AsignaturaId = AsignaturaId,
                asignaturas.Codigo = Codigo,
-               asignaturas.Descripcion = Descripcion,
+               asignaturas.Descripcion = AsignaturaNombre,
                asignaturas.PreRequisitos = Prerrequisitos,
                asignaturas.Creditos = Creditos,
                asignaturas.EstudianteId = EstudianteId
@@ -214,21 +230,44 @@
 
     }
 
+    private void LlevarGrid()
+    {
+        this.estudiantes.Asignaturas = null;
+        this.estudiantes.Asignaturas = AsignaturasDetalle;
+    }
+
+
     private void BuscarAsignaturas()
     {
-        Asignaturas busca = AsignaturasControllers.BuscarAsignaturas(Convert.ToInt32(AsignaturaNombre));
+
+        Asignaturas busca = AsignaturasControllers.BuscarAsignaturas(AsignaturaId);
 
         if(busca!=null)
         {
-            this.asignaturas = busca;
+            AsignaturaId = busca.AsignaturaId;
+            Codigo = busca.Codigo;
+            AsignaturaNombre = busca.Descripcion;
+            Prerrequisitos = busca.PreRequisitos;
+            Creditos = busca.Creditos;
+            EstudianteId = busca.EstudianteId;
+            CargarGrid();
         } else
         {
-            mensaje = "Ha aparecido un error";
+            mensaje = "No se pudo buscar la asignaura";
         }
-
-
-
+       
     }
 
+
+    private void LimpiarCampos()
+    {
+        AsignaturaId = 0;
+        Codigo = string.Empty;
+        Descripcion = string.Empty;
+        Prerrequisitos = string.Empty;
+        Creditos = 0;
+        EstudianteId = 0;
+
+    }
 
 }

@@ -1,4 +1,4 @@
-﻿@page "/Pagos"
+﻿@page "/Pagos/{CurrentId:int}"
 
 <h3>Pagos</h3>
 
@@ -6,7 +6,7 @@
     <h5>@Mensaje</h5>
     <div class="row">
         <div class="col-md-9">
-            <EditForm>
+            <EditForm Model="pagos" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator></DataAnnotationsValidator>
 
                 <div class="form-group">
@@ -49,22 +49,23 @@
 
 @code {
 
-    PagosControllers PagosControllers = new PagosControllers();
 
+    private Pagos pagos { get; set; } = new Pagos();
+    PagosControllers PagosControllers = new PagosControllers();
+    
     private string Mensaje;
 
-    //[Parameter]
-    //public int CurrentId { get; set; }
+    [Parameter]
+    public int CurrentId { get; set; }
 
-    //protected override void OnInitialized()
-    //{
-    //    if(CurrentId!=0)
-    //    {
-    //        pagos = PagosControllers.Buscar(CurrentId);
-    //    }
-    //}
+    protected override void OnInitialized()
+    {
+        if (CurrentId!=0)
+        {
+            pagos = PagosControllers.Buscar(CurrentId);
+        }
+    }
 
-    Pagos pagos { get; set; } = new Pagos();
 
     private void Guardar()
     {
